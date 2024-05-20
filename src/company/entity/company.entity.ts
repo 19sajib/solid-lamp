@@ -5,6 +5,7 @@ import { Review } from "./review.entity";
 import { WorkType } from "./helper";
 import { Job } from "./job.entity";
 import { Salary } from "./salary.entity";
+import { Interview } from "./interview.entity";
 
 
 @modelOptions(modelOptionsFactory('companies', true, false))
@@ -51,6 +52,6 @@ export class Company extends TimeStamps {
     @prop({ ref: () => Job, default: [] })
     jobs?: Ref<Job>[];
 
-    @prop()
-    interviews: object
+    @prop({ ref: () => Interview, default: []})
+    interviews?: Ref<Interview>
 }

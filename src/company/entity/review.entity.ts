@@ -1,13 +1,15 @@
-import { Ref, prop } from "@typegoose/typegoose";
+import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { Company } from "./company.entity";
 import { EmploymentStatus } from "./helper";
+import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 
 export enum EmploymentType {
     CURRENT = 'Current',
     FORMER = 'Former'
 }
 
+@modelOptions(modelOptionsFactory('reviews', true, false))
 export class Review extends TimeStamps{
     @prop({ required: true, ref: () => Company })
     public company!: Ref<Company>;
