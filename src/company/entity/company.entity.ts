@@ -4,6 +4,7 @@ import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 import { Review } from "./review.entity";
 import { WorkType } from "./helper";
 import { Job } from "./job.entity";
+import { Salary } from "./salary.entity";
 
 
 @modelOptions(modelOptionsFactory('companies', true, false))
@@ -41,8 +42,8 @@ export class Company extends TimeStamps {
     @prop()
     social?: object
 
-    @prop({ type: () => Object })
-    salaries: object
+    @prop({ type: () => Salary, default: [] })
+    salaries: Ref<Salary>
 
     @prop({ ref: () => Review, default: [] })
     reviews?: Ref<Review>[];

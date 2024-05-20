@@ -9,7 +9,7 @@ export class Job {
     public company!: Ref<Company>;
 
     @prop({ required: true })
-    public title!: string;
+    public position!: string;
 
     @prop()
     public description!: string;
@@ -25,7 +25,7 @@ export class Job {
 
     @prop()
     public applyLink?: string;
-    
+
     @prop()
     public applyLastDate?: Date;
 
