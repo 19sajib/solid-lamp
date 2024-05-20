@@ -1,18 +1,11 @@
 import { Ref, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { Company } from "./company.entity";
+import { EmploymentStatus } from "./helper";
 
-export enum EmployeeType {
+export enum EmploymentType {
     CURRENT = 'Current',
     FORMER = 'Former'
-}
-
-export enum EmployeeStatus {
-    PART_TIME = 'Part-time',
-    FULL_TIME = 'Full-time',
-    CONTRACT = 'Contract',
-    INTERNSHIP = 'Internship',
-    FREELANCE = 'Freelance'
 }
 
 export class Review extends TimeStamps{
@@ -22,11 +15,11 @@ export class Review extends TimeStamps{
     @prop({ required: true })
     private reviewer!: string;
 
-    @prop({ required: true, enum: () => EmployeeStatus })
-    public employeeStatus!: EmployeeStatus.FULL_TIME
+    @prop({ required: true, enum: () => EmploymentStatus })
+    public employmentStatus!: EmploymentStatus.FULL_TIME
     
-    @prop({ required: true, enum: () => EmployeeType })
-    public employeeType!: EmployeeType.CURRENT
+    @prop({ required: true, enum: () => EmploymentType })
+    public employmentType!: EmploymentType.CURRENT
 
     @prop()
     public position?: string;

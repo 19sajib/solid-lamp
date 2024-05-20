@@ -2,12 +2,9 @@ import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 import { Review } from "./review.entity";
+import { WorkType } from "./helper";
+import { Job } from "./job.entity";
 
-export enum WorkType {
-    REMOTE = 'Remote',
-    ONSITE = 'On Site',
-    HYBRID = 'hybrid'
-}
 
 @modelOptions(modelOptionsFactory('companies', true, false))
 export class Company extends TimeStamps {
@@ -49,6 +46,9 @@ export class Company extends TimeStamps {
 
     @prop({ ref: () => Review, default: [] })
     reviews?: Ref<Review>[];
+
+    @prop({ ref: () => Job, default: [] })
+    jobs?: Ref<Job>[];
 
     @prop()
     interviews: object
