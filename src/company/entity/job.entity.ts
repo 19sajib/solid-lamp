@@ -2,6 +2,7 @@ import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 import { Company } from "./company.entity";
 import { EmploymentStatus, WorkType } from "./helper";
+import { User } from "src/auth/entity/user.entity";
 
 @modelOptions(modelOptionsFactory('jobs', true, false))
 export class Job {
@@ -14,11 +15,11 @@ export class Job {
     @prop()
     public description!: string;
 
-    @prop({ required: true, enum: () => EmploymentStatus })
-    public employmentStatus!: EmploymentStatus.FULL_TIME
+    @prop({ required: true, enum: () => EmploymentStatus, default: EmploymentStatus.FULL_TIME })
+    public employmentStatus!: EmploymentStatus
 
-    @prop({ enum: () => WorkType })
-    public workType?: WorkType.ONSITE
+    @prop({ required: true, enum: () => WorkType, default: WorkType.ONSITE })
+    public workType!: WorkType
 
     @prop()
     public location?: string;
@@ -29,5 +30,7 @@ export class Job {
     @prop()
     public applyLastDate?: Date;
 
+    @prop({ required: true, ref: () => User })
+    private addedBy?: Ref<User>;
 
 }

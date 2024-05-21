@@ -6,6 +6,7 @@ import { WorkType } from "./helper";
 import { Job } from "./job.entity";
 import { Salary } from "./salary.entity";
 import { Interview } from "./interview.entity";
+import { User } from "src/auth/entity/user.entity";
 
 
 @modelOptions(modelOptionsFactory('companies', true, false))
@@ -54,4 +55,7 @@ export class Company extends TimeStamps {
 
     @prop({ ref: () => Interview, default: []})
     interviews?: Ref<Interview>
+
+    @prop({ required: true, ref: () => User })
+    private addedBy!: Ref<User>;
 }

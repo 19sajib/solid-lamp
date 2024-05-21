@@ -3,6 +3,7 @@ import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { Company } from "./company.entity";
 import { EmploymentStatus } from "./helper";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
+import { User } from "src/auth/entity/user.entity";
 
 export enum EmploymentType {
     CURRENT = 'Current',
@@ -14,14 +15,14 @@ export class Review extends TimeStamps{
     @prop({ required: true, ref: () => Company })
     public company!: Ref<Company>;
 
-    @prop({ required: true })
-    private reviewer!: string;
+    @prop({ required: true, ref: () => User })
+    private reviewer!: Ref<User>;
 
-    @prop({ required: true, enum: () => EmploymentStatus })
-    public employmentStatus!: EmploymentStatus.FULL_TIME
+    @prop({ required: true, enum: () => EmploymentStatus, default: EmploymentStatus.FULL_TIME })
+    public employmentStatus!: EmploymentStatus
     
-    @prop({ required: true, enum: () => EmploymentType })
-    public employmentType!: EmploymentType.CURRENT
+    @prop({ required: true, enum: () => EmploymentType, default: EmploymentType.CURRENT })
+    public employmentType!: EmploymentType
 
     @prop()
     public position?: string;
@@ -48,6 +49,6 @@ export class Review extends TimeStamps{
     public helpful?: string[]
 
     @prop()
-    public recomended?: boolean
+    public recommended?: boolean
 
 }

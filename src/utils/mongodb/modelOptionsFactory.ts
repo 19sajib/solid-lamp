@@ -14,6 +14,7 @@ export const modelOptionsFactory = (
                     ret.id = ret._id;
 					delete ret._id;
 					delete ret.__v;
+					delete ret.password;
 					deleteTimestamps ? delete ret?.createdAt : null;
 					deleteTimestamps ? delete ret?.updatedAt : null;
 					return ret;
@@ -25,6 +26,7 @@ export const modelOptionsFactory = (
 					ret.id = ret._id;
 					delete ret._id;
 					delete ret.__v;
+					delete ret.password;
 					deleteTimestamps ? delete ret?.createdAt : null;
 					deleteTimestamps ? delete ret?.updatedAt : null;
 					return ret;
