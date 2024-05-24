@@ -18,6 +18,7 @@ const setupSwagger = (app: INestApplication) => {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api')
   const logger = new Logger('Startup');
   const config = app.get(ConfigService)
   setupSwagger(app);

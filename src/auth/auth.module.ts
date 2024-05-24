@@ -4,6 +4,8 @@ import { User } from './entity/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { GoogleStrategy } from './Google.strategy';
 
 @Module({
     imports: [
@@ -20,6 +22,7 @@ import { AuthService } from './auth.service';
           }),
         TypegooseModule.forFeature([User]), 
     ],
-    providers: [AuthService]
+    providers: [AuthService, GoogleStrategy],
+    controllers: [AuthController]
 })
 export class AuthModule {}
