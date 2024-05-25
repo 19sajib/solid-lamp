@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
 import config from './config/config';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { TypegooseModule } from 'nestjs-typegoose';
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get("MONGODB_URI"),
       })
-    })
+    }),
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
