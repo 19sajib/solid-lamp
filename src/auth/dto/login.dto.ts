@@ -6,7 +6,7 @@ export class LoginDTO {
     @IsEmail()
     email: string
 
-    @ApiProperty({ type: String, required: true, example: '12345678' })
+    @ApiProperty({ type: String, required: true, example: 'Hx1234567&' })
     password: string
 }
 
