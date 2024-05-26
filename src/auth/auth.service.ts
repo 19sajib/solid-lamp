@@ -119,4 +119,8 @@ export class AuthService {
         const user = await this.userModel.findOne({ email })
         return user
     }
+    // Find user by id
+    async getUserById(id: string): Promise<any> {
+        return await this.userModel.findById(id)
+    }
 }
