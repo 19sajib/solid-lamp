@@ -9,7 +9,7 @@ import { User } from "src/auth/entity/user.entity";
 @modelOptions(modelOptionsFactory('reviews', true, false))
 export class Review extends TimeStamps{
     @prop({ required: true, ref: () => Company })
-    public company!: Ref<Company>;
+    public companyId!: Ref<Company>;
 
     @prop({ required: true, ref: () => User })
     private reviewer!: Ref<User>;

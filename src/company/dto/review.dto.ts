@@ -1,8 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { EmploymentStatus, EmploymentType } from "../entity/helper";
-import { IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
-export class ReviewDTo {
+export class ReviewDTO {
+    @ApiProperty({ type: String })
+    @IsMongoId()
+    @IsOptional()
+    companyId: string
+
+    @IsMongoId()
+    @IsOptional()
+    reviewer: string
+
     @ApiProperty({ required: true, enum: EmploymentStatus, example: EmploymentStatus.FULL_TIME })
     employmentStatus: EmploymentStatus
 

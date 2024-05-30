@@ -5,12 +5,15 @@ import { InjectModel } from 'nestjs-typegoose';
 import { CreateCompanyDTO } from './dto/company.dto';
 import { InterviewDTO } from './dto/interview.dto';
 import { Interview } from './entity/interview.entity';
+import { ReviewDTO } from './dto/review.dto';
+import { Review } from './entity/review.entity';
 
 @Injectable()
 export class CompanyService {
     constructor(
         @InjectModel(Company) private readonly companyModel: ReturnModelType<typeof Company>,
-        @InjectModel(Interview) private readonly interviewModel: ReturnModelType<typeof Interview>
+        @InjectModel(Interview) private readonly interviewModel: ReturnModelType<typeof Interview>,
+        @InjectModel(Review) private readonly reviewModel: ReturnModelType<typeof Review>
     ){ }
 
     // create company profile
@@ -34,5 +37,13 @@ export class CompanyService {
         const interview = await this.interviewModel.create(body)
         await this.companyModel.findByIdAndUpdate(companyId, { $push: {interviews: interview.id} }, { new: true, useFindAndModify: true })
         return interview
+    }
+
+    // add review to company
+    async addReview(body: ReviewDTO): Promise<any> {
+        const { companyId } =body
+        const review = await this.reviewModel.create(body)
+        await this.companyModel.findByIdAndUpdate(companyId, { $push: {reviews: review.id} }, { new: true, useFindAndModify: true })
+        return review
     }
 }

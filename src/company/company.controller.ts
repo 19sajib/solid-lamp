@@ -4,6 +4,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from 'src/utils/guard/auth.guard';
 import { InterviewDTO } from './dto/interview.dto';
+import { ReviewDTO } from './dto/review.dto';
+
 
 @ApiTags("Company Related APIs")
 @Controller('company')
@@ -23,8 +25,13 @@ export class CompanyController {
     @Post('interview')
     async addInterview(@Body() body: InterviewDTO, @Req() req) {
         body.reviewer = req.user
-        console.log({body})
         return await this.companyService.addInterview(body)
+    }
+
+    @Post('review')
+    async addReview(@Body() body: ReviewDTO, @Req() req) {
+        body.reviewer = req.user
+        return await this.companyService.addReview(body)
     }
 
 }
