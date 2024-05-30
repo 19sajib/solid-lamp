@@ -15,9 +15,9 @@ export class Salary {
     public position!: string;
 
     @prop({ required: true })
-    public salaryRange!: string
+    public salary!: string
 
-    @prop({ required: true, default: 'Unknown' })
-    public experience!: string
+    @prop()
+    public experience?: string
 
 }

@@ -11,3 +11,8 @@ export enum EmploymentStatus {
     INTERNSHIP = 'Internship',
     FREELANCE = 'Freelance'
 }
+
+export enum EmploymentType {
+    CURRENT = 'Current',
+    FORMER = 'Former'
+}

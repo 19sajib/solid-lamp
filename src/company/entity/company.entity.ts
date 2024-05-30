@@ -8,6 +8,36 @@ import { Salary } from "./salary.entity";
 import { Interview } from "./interview.entity";
 import { User } from "src/auth/entity/user.entity";
 
+class HireType {
+    @prop({ default: false })
+    public hireFresher?: boolean;
+  
+    @prop({ default: false })
+    public hireIntern?: boolean;
+  
+    @prop({ default: false })
+    public hireContractor?: boolean;
+  
+    @prop({ default: false })
+    public hireFullTime?: boolean;
+
+    @prop({ default: false })
+    public hirePartTime?: boolean;
+  }
+
+class Social {
+    @prop({ match: /^https?:\/\/(www\.)?linkedin\.com\/.*$/ })
+    public linkedin?: string;
+  
+    @prop({ match: /^https?:\/\/(www\.)?twitter\.com\/.*$/ })
+    public twitter?: string;
+  
+    @prop({ match: /^https?:\/\/(www\.)?facebook\.com\/.*$/ })
+    public facebook?: string;
+  
+    @prop({ match: /^https?:\/\/(www\.)?instagram\.com\/.*$/ })
+    public instagram?: string;
+  }
 
 @modelOptions(modelOptionsFactory('companies', true, false))
 export class Company extends TimeStamps {
@@ -21,40 +51,40 @@ export class Company extends TimeStamps {
     founded?: string
 
     @prop()
-    headquarters?: string
+    headquarter?: string
 
     @prop({ type: () => [String] })
     locations?: string[]
 
     @prop()
-    employeesCount?: string
+    numOfEmployees?: string
 
     @prop({ type: () => [String] })
-    techStack?: string
+    techStack?: string[]
 
     @prop({ enum: () => WorkType })
     workType?: WorkType.ONSITE
 
-    @prop()
-    hireType?: object
+    @prop({ _id: false })
+    hireType?: HireType
 
     @prop()
     website?: string
 
-    @prop()
-    social?: object
+    @prop({ _id: false })
+    social?: Social
 
-    @prop({ type: () => Salary, default: [] })
-    salaries: Ref<Salary>
+    @prop({ type: () => [Salary], default: [] })
+    salaries?: Ref<Salary>[]
 
-    @prop({ ref: () => Review, default: [] })
+    @prop({ type: () => [Review], default: [] })
     reviews?: Ref<Review>[];
 
-    @prop({ ref: () => Job, default: [] })
+    @prop({ type: () => [Job], default: [] })
     jobs?: Ref<Job>[];
 
-    @prop({ ref: () => Interview, default: []})
-    interviews?: Ref<Interview>
+    @prop({ type: () => [Interview], default: []})
+    interviews?: Ref<Interview>[]
 
     @prop({ required: true, ref: () => User })
     private addedBy!: Ref<User>;
