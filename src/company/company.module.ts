@@ -7,10 +7,11 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/auth/entity/user.entity';
+import { Interview } from './entity/interview.entity';
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([Company, User])
+    TypegooseModule.forFeature([Company, User, Interview])
   ],
   providers: [CompanyService, JwtService, ConfigService, AuthService],
   controllers: [CompanyController]
