@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsOptional, IsString, Matches } from "class-validator";
+import { IsArray, IsBoolean, IsOptional, IsString, Matches } from "class-validator";
 import { WorkType } from "../entity/helper";
 
 class HireTypeDTO {
@@ -74,8 +74,8 @@ export class CreateCompanyDTO {
 
     @ApiProperty({ type: () => [String], example: ["London", "Sydney"]})
     @IsOptional()
-    @IsString()
-    locations: [string]
+    @IsArray()
+    locations: string[]
 
     @ApiProperty({ type: String, example: "20-30"})
     @IsOptional()
@@ -84,8 +84,8 @@ export class CreateCompanyDTO {
 
     @ApiProperty({ type: () => [String], example: ["Node", "React", "MongoDB"]})
     @IsOptional()
-    @IsString()
-    techStack: [string]
+    @IsArray()
+    techStack: string[]
 
     @ApiProperty({ enum: WorkType, example: WorkType.HYBRID})
     @IsOptional()
@@ -104,5 +104,8 @@ export class CreateCompanyDTO {
     @ApiProperty({ type: SocialDTO })
     @IsOptional()
     social: SocialDTO
+
+    @IsOptional()
+    addedBy: string
 }
 

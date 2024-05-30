@@ -60,7 +60,7 @@ export class Company extends TimeStamps {
     numOfEmployees?: string
 
     @prop({ type: () => [String] })
-    techStack?: string
+    techStack?: string[]
 
     @prop({ enum: () => WorkType })
     workType?: WorkType.ONSITE
@@ -74,17 +74,17 @@ export class Company extends TimeStamps {
     @prop({ _id: false })
     social?: Social
 
-    @prop({ type: () => Salary, default: [] })
-    salaries: Ref<Salary>
+    @prop({ type: () => [Salary], default: [] })
+    salaries?: Ref<Salary>[]
 
-    @prop({ ref: () => Review, default: [] })
+    @prop({ type: () => [Review], default: [] })
     reviews?: Ref<Review>[];
 
-    @prop({ ref: () => Job, default: [] })
+    @prop({ type: () => [Job], default: [] })
     jobs?: Ref<Job>[];
 
-    @prop({ ref: () => Interview, default: []})
-    interviews?: Ref<Interview>
+    @prop({ type: () => [Interview], default: []})
+    interviews?: Ref<Interview>[]
 
     @prop({ required: true, ref: () => User })
     private addedBy!: Ref<User>;
