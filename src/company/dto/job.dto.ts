@@ -1,8 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { EmploymentStatus, WorkType } from "../entity/helper";
 
 export class JobDTO {
+    @ApiProperty({ type: String })
+    @IsMongoId()
+    @IsOptional()
+    companyId: string
+
+    @IsMongoId()
+    @IsOptional()
+    addedBy: string
+
     @ApiProperty({ type: String, example: "Full Stack Developer", required: true })
     @IsString()
     position: string
@@ -27,9 +36,14 @@ export class JobDTO {
     @IsOptional()
     applyLink: string
 
-    @ApiProperty({ type: String, example: "2024-06-26"})
+    @ApiProperty({ type: Date, example: new Date()})
     @IsString()
-    @IsOptional()
+    @IsNotEmpty()
     applyLastDate: string
+
+    @ApiProperty({ type: String, required: true, example: "50k-80k"})
+    @IsString()
+    @IsNotEmpty()
+    salaryRange: string
 
 }

@@ -9,6 +9,8 @@ import { ReviewDTO } from './dto/review.dto';
 import { Review } from './entity/review.entity';
 import { SalaryDTO } from './dto/salary.dto';
 import { Salary } from './entity/salary.entity';
+import { JobDTO } from './dto/job.dto';
+import { Job } from './entity/job.entity';
 
 @Injectable()
 export class CompanyService {
@@ -16,7 +18,8 @@ export class CompanyService {
         @InjectModel(Company) private readonly companyModel: ReturnModelType<typeof Company>,
         @InjectModel(Interview) private readonly interviewModel: ReturnModelType<typeof Interview>,
         @InjectModel(Review) private readonly reviewModel: ReturnModelType<typeof Review>,
-        @InjectModel(Salary) private readonly salaryModel: ReturnModelType<typeof Salary>
+        @InjectModel(Salary) private readonly salaryModel: ReturnModelType<typeof Salary>,
+        @InjectModel(Job) private readonly jobModel: ReturnModelType<typeof Job>
     ){ }
 
     // create company profile
@@ -56,5 +59,13 @@ export class CompanyService {
         const salary = await this.salaryModel.create(body)
         await this.companyModel.findByIdAndUpdate(companyId, { $push: {salaries: salary.id} }, { new: true, useFindAndModify: true })
         return salary
+    }
+
+    // add job to company
+    async addJob(body: JobDTO): Promise<any> {
+        const { companyId } =body
+        const job = await this.jobModel.create(body)
+        await this.companyModel.findByIdAndUpdate(companyId, { $push: {jobs: job.id} }, { new: true, useFindAndModify: true })
+        return job
     }
 }

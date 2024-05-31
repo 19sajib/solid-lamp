@@ -10,10 +10,11 @@ import { User } from 'src/auth/entity/user.entity';
 import { Interview } from './entity/interview.entity';
 import { Review } from './entity/review.entity';
 import { Salary } from './entity/salary.entity';
+import { Job } from './entity/job.entity';
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([Company, User, Interview, Review, Salary])
+    TypegooseModule.forFeature([Company, User, Interview, Review, Salary, Job])
   ],
   providers: [CompanyService, JwtService, ConfigService, AuthService],
   controllers: [CompanyController]

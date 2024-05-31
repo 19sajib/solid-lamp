@@ -80,7 +80,7 @@ export class Company extends TimeStamps {
     @prop({ type: () => [Review], ref: 'reviews', default: [] })
     reviews?: Ref<Review>[];
 
-    @prop({ type: () => [Job], default: [] })
+    @prop({ type: () => [Job], ref: 'jobs', default: [] })
     jobs?: Ref<Job>[];
 
     @prop({ type: () => [Interview], ref: 'interviews', default: []})
