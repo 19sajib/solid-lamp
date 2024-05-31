@@ -11,6 +11,7 @@ import { SalaryDTO } from './dto/salary.dto';
 import { Salary } from './entity/salary.entity';
 import { JobDTO } from './dto/job.dto';
 import { Job } from './entity/job.entity';
+import { pagination } from 'src/utils/mongodb/pagination';
 
 @Injectable()
 export class CompanyService {
@@ -35,6 +36,16 @@ export class CompanyService {
         const company = await this.companyModel.create(body)
         return company
         
+    }
+
+    // get all company with pagination
+    async getPaginatedCompanyList(page: number): Promise<any> {
+        return await pagination(this.companyModel, page)
+    }
+
+    // get single company details by company id
+    async getSingleCompanyDetail(companyId: string): Promise<Company> {
+        return await this.companyModel.findById(companyId)
     }
 
     // add interview to company

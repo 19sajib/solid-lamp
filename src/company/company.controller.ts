@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateCompanyDTO } from './dto/company.dto';
@@ -18,6 +18,17 @@ export class CompanyController {
         private readonly companyService: CompanyService
     ) {}
 
+    
+    @Get('')
+    async getSingleCompany(@Query('companyId') companyId: string) {
+        return await this.companyService.getSingleCompanyDetail(companyId)
+    }
+    
+    @Get('paginated')
+    async getAllCompany(@Query('page', ParseIntPipe) page: number) {
+        return await this.companyService.getPaginatedCompanyList(page)
+    }
+    
     @Post('create')
     async createCompany(@Body() body: CreateCompanyDTO, @Req() req){
         body.addedBy = req.user
