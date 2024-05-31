@@ -74,16 +74,16 @@ export class Company extends TimeStamps {
     @prop({ _id: false })
     social?: Social
 
-    @prop({ type: () => [Salary], default: [] })
+    @prop({ type: () => [Salary], ref: 'salaries', default: [] })
     salaries?: Ref<Salary>[]
 
-    @prop({ type: () => [Review], default: [] })
+    @prop({ type: () => [Review], ref: 'reviews', default: [] })
     reviews?: Ref<Review>[];
 
-    @prop({ type: () => [Job], default: [] })
+    @prop({ type: () => [Job], ref: 'jobs', default: [] })
     jobs?: Ref<Job>[];
 
-    @prop({ type: () => [Interview], default: []})
+    @prop({ type: () => [Interview], ref: 'interviews', default: []})
     interviews?: Ref<Interview>[]
 
     @prop({ required: true, ref: () => User })

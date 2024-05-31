@@ -6,7 +6,7 @@ import { User } from "src/auth/entity/user.entity";
 @modelOptions(modelOptionsFactory('salaries', false, true))
 export class Salary {
     @prop({ required: true, ref: () => Company })
-    public company!: Ref<Company>;
+    public companyId!: Ref<Company>;
 
     @prop({ required: true, ref: () => User })
     private reviewer!: Ref<User>;

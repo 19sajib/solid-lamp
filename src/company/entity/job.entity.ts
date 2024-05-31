@@ -7,12 +7,12 @@ import { User } from "src/auth/entity/user.entity";
 @modelOptions(modelOptionsFactory('jobs', true, false))
 export class Job {
     @prop({ required: true, ref: () => Company })
-    public company!: Ref<Company>;
+    public companyId!: Ref<Company>;
 
     @prop({ required: true })
     public position!: string;
 
-    @prop()
+    @prop({ required: true })
     public description!: string;
 
     @prop({ required: true, enum: () => EmploymentStatus, default: EmploymentStatus.FULL_TIME })
@@ -27,8 +27,11 @@ export class Job {
     @prop()
     public applyLink?: string;
 
-    @prop()
-    public applyLastDate?: Date;
+    @prop({ required: true })
+    public applyLastDate!: Date;
+
+    @prop({ required: true, type: String })
+    public salaryRange: string
 
     @prop({ required: true, ref: () => User })
     private addedBy?: Ref<User>;

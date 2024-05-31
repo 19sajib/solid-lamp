@@ -7,7 +7,7 @@ import { User } from "src/auth/entity/user.entity";
 @modelOptions(modelOptionsFactory('interviews', true, false))
 export class Interview extends TimeStamps {
     @prop({ required: true, ref: () => Company })
-    public company!: Ref<Company>;
+    public companyId!: Ref<Company>;
 
     @prop({ required: true, ref: () => User })
     private reviewer!: Ref<User>;

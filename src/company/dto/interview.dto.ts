@@ -1,7 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class InterviewDTO {
+    @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
+    companyId: string
+
+    @IsOptional()
+    @IsMongoId()
+    reviewer: string
+
     @ApiProperty({ required: true, type: String, example: "Backend Engineer"})
     @IsString()
     position: string
@@ -10,7 +19,7 @@ export class InterviewDTO {
     @IsString()
     description: string
 
-    @ApiProperty({ required: true, type: String, example: "Good interview experience"})
+    @ApiProperty({ type: String, example: "Good interview experience"})
     @IsString()
     @IsOptional()
     experience: string
