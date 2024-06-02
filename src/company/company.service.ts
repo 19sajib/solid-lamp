@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { Company } from './entity/company.entity';
 import { InjectModel } from 'nestjs-typegoose';
-import { CreateCompanyDTO } from './dto/company.dto';
+import { CreateCompanyDTO, UpdateCompanyDTO } from './dto/company.dto';
 import { InterviewDTO } from './dto/interview.dto';
 import { Interview } from './entity/interview.entity';
 import { ReviewDTO } from './dto/review.dto';
@@ -46,6 +46,66 @@ export class CompanyService {
     // get single company details by company id
     async getSingleCompanyDetail(companyId: string): Promise<Company> {
         return await this.companyModel.findById(companyId)
+    }
+
+    // update company details by company id
+    async updateCompanyInfo(companyId: string, body: UpdateCompanyDTO): Promise<any> {
+        const updateOperations: any = {};
+        const pushOperations: any = {}
+        
+        // Handle nested social object update
+        if (body.social) {
+            for (const [key, value] of Object.entries(body.social)) {
+                if (value !== undefined) {
+                    updateOperations[`social.${key}`] = value;
+                }
+            }
+        }
+        // Handle nested hire type object update
+        if (body.hireType) {
+            for (const [key, value] of Object.entries(body.hireType)) {
+                if (value !== undefined) {
+                    updateOperations[`hireType.${key}`] = value;
+                }
+            }
+        }
+
+        // Handle pushing to locations array
+        if (body.locations) {
+            pushOperations.locations = { $each: body.locations };
+        }
+
+        // Handle pushing to locations array
+        if (body.techStack) {
+            pushOperations.techStack = { $each: body.techStack }
+        }
+
+        // Handle other fields
+        const otherFields = [
+            'description', 'founded', 'headquarter', 'name', 'numOfEmployees', 'website', 'workType'
+        ];
+        for (const field of otherFields) {
+            if (body[field] !== undefined) {
+                updateOperations[field] = body[field];
+            }
+        }
+
+        // Merge $set and $push/$addToSet operations
+        const updateQuery: any = {};
+        if (Object.keys(updateOperations).length > 0) {
+            updateQuery.$set = updateOperations;
+        }
+        if (Object.keys(pushOperations).length > 0) {
+            updateQuery.$addToSet = pushOperations;
+        }
+
+        const updatedCompany = await this.companyModel.findByIdAndUpdate(
+            companyId,
+            updateQuery,
+            { new: true, useFindAndModify: false }
+        ).exec();
+
+        return updatedCompany
     }
 
     // add interview to company

@@ -37,6 +37,9 @@ class Social {
   
     @prop({ match: /^https?:\/\/(www\.)?instagram\.com\/.*$/ })
     public instagram?: string;
+    
+    @prop({ match: /^https?:\/\/(www\.)?github\.com\/.*$/ })
+    public github?: string;
   }
 
 @modelOptions(modelOptionsFactory('companies', true, false))

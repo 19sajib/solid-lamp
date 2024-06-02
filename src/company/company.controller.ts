@@ -1,7 +1,7 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateCompanyDTO } from './dto/company.dto';
+import { CreateCompanyDTO, UpdateCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from 'src/utils/guard/auth.guard';
 import { InterviewDTO } from './dto/interview.dto';
 import { ReviewDTO } from './dto/review.dto';
@@ -19,11 +19,11 @@ export class CompanyController {
     ) {}
 
     
-    @Get('')
-    async getSingleCompany(@Query('companyId') companyId: string) {
+    @Get(':companyId')
+    async getSingleCompany(@Param('companyId') companyId: string) {
         return await this.companyService.getSingleCompanyDetail(companyId)
     }
-    
+
     @Get('paginated')
     async getAllCompany(@Query('page', ParseIntPipe) page: number) {
         return await this.companyService.getPaginatedCompanyList(page)
@@ -33,6 +33,11 @@ export class CompanyController {
     async createCompany(@Body() body: CreateCompanyDTO, @Req() req){
         body.addedBy = req.user
         return await this.companyService.createCompany(body)
+    }
+
+    @Patch(':companyId')
+    async updateCompanyInfo(@Param('companyId') companyId: string, @Body() body: UpdateCompanyDTO) {
+        return await this.companyService.updateCompanyInfo(companyId, body)
     }
 
     @Post('interview')
