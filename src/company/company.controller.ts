@@ -18,15 +18,14 @@ export class CompanyController {
         private readonly companyService: CompanyService
     ) {}
 
-    
-    @Get(':companyId')
-    async getSingleCompany(@Param('companyId') companyId: string) {
-        return await this.companyService.getSingleCompanyDetail(companyId)
-    }
-
     @Get('paginated')
     async getAllCompany(@Query('page', ParseIntPipe) page: number) {
         return await this.companyService.getPaginatedCompanyList(page)
+    }
+
+    @Get(':companyId')
+    async getSingleCompany(@Param('companyId') companyId: string) {
+        return await this.companyService.getSingleCompanyDetail(companyId)
     }
     
     @Post('create')

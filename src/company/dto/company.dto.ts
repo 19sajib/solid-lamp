@@ -105,6 +105,10 @@ export class CreateCompanyDTO {
     @IsOptional()
     social: SocialDTO
 
+    @ApiProperty({ type: String })
+    @IsOptional()
+    logo: string
+
     @IsOptional()
     addedBy: string
 }
