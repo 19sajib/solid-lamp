@@ -16,7 +16,7 @@ class HireType {
     public hireIntern?: boolean;
   
     @prop({ default: false })
-    public hireContractor?: boolean;
+    public hireContract?: boolean;
   
     @prop({ default: false })
     public hireFullTime?: boolean;
@@ -37,6 +37,9 @@ class Social {
   
     @prop({ match: /^https?:\/\/(www\.)?instagram\.com\/.*$/ })
     public instagram?: string;
+    
+    @prop({ match: /^https?:\/\/(www\.)?github\.com\/.*$/ })
+    public github?: string;
   }
 
 @modelOptions(modelOptionsFactory('companies', true, false))
@@ -85,6 +88,12 @@ export class Company extends TimeStamps {
 
     @prop({ type: () => [Interview], ref: 'interviews', default: []})
     interviews?: Ref<Interview>[]
+
+    @prop({ type: Boolean, default: false })
+    isShow?: boolean
+
+    @prop({ type: String })
+    logo?: string
 
     @prop({ required: true, ref: () => User })
     private addedBy!: Ref<User>;

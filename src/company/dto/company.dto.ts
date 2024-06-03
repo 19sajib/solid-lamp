@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { IsArray, IsBoolean, IsOptional, IsString, Matches } from "class-validator";
 import { WorkType } from "../entity/helper";
 
@@ -16,7 +16,7 @@ class HireTypeDTO {
     @ApiProperty({ type: Boolean })
     @IsOptional()
     @IsBoolean()
-    hireContractor: boolean
+    hireContract: boolean
 
     @ApiProperty({ type: Boolean })
     @IsOptional()
@@ -105,7 +105,14 @@ export class CreateCompanyDTO {
     @IsOptional()
     social: SocialDTO
 
+    @ApiProperty({ type: String })
+    @IsOptional()
+    logo: string
+
     @IsOptional()
     addedBy: string
 }
 
+// export class UpdateCompanyDTO extends PartialType(CreateCompanyDTO){}
+export class UpdateCompanyDTO extends OmitType(CreateCompanyDTO, ['addedBy', 'name']){}
+// export class UpdateCompanyDTO extends PickType(CreateCompanyDTO, ['description', 'founded', 'headquarter', 'hireType', 'locations', 'numOfEmployees', 'social', 'techStack', 'website', 'workType']){}
