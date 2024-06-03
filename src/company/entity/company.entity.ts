@@ -16,7 +16,7 @@ class HireType {
     public hireIntern?: boolean;
   
     @prop({ default: false })
-    public hireContractor?: boolean;
+    public hireContract?: boolean;
   
     @prop({ default: false })
     public hireFullTime?: boolean;

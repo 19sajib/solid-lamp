@@ -16,7 +16,7 @@ class HireTypeDTO {
     @ApiProperty({ type: Boolean })
     @IsOptional()
     @IsBoolean()
-    hireContractor: boolean
+    hireContract: boolean
 
     @ApiProperty({ type: Boolean })
     @IsOptional()

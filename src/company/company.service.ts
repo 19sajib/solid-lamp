@@ -39,9 +39,42 @@ export class CompanyService {
     }
 
     // get all company with pagination
-    async getPaginatedCompanyList(page: number): Promise<any> {
-        return await pagination(this.companyModel, page)
+    async getPaginatedCompanyList(page: number, hireType: string, workType: string, name: string, techStack: string, locations: string): Promise<any> {
+        let query = {}
+        if (name) query = {...query, name: {
+            $regex: name,
+            $options: "i"
+        }}
+        if (workType) query = {...query, workType: {
+            $regex: workType,
+            $options: "i"
+        }}
+        if (hireType) query = {...query, [`hireType.${hireType}`]: true}
+        if (techStack) {
+            // let regex = techStack.map( function( val ){ 
+            //     return new RegExp( '^['+val+'].*','i' ); 
+            // })
+            // query = {
+            //     ... query, $in: regex
+            // }
+            query = {...query, techStack: {
+                $regex: techStack,
+                $options: "i"
+            }}
+        }
+        if (locations) query = {
+            ...query,
+            locations: {
+                $regex: locations,
+                $options: "i"
+            }
+        }
+        // console.log(workType)
+        return await pagination(this.companyModel, page, query)
     }
+    // async getPaginatedCompanyList(page: number): Promise<any> {
+    //     return await pagination(this.companyModel, page)
+    // }
 
     // get single company details by company id
     async getSingleCompanyDetail(companyId: string): Promise<Company> {

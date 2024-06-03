@@ -19,9 +19,20 @@ export class CompanyController {
     ) {}
 
     @Get('paginated')
-    async getAllCompany(@Query('page', ParseIntPipe) page: number) {
-        return await this.companyService.getPaginatedCompanyList(page)
+    async getAllCompany(
+        @Query('page', ParseIntPipe) page: number, 
+        @Query('name') name?: string,
+        @Query('workType') workType?: string,
+        @Query('hireType') hireType?: string, 
+        @Query('techStack') techStack?: string,
+        @Query('locations') locations?: string
+    ) {
+        return await this.companyService.getPaginatedCompanyList(page, hireType, workType, name, techStack, locations)
     }
+    // @Get('paginated')
+    // async getAllCompany(@Query('page', ParseIntPipe) page: number) {
+    //     return await this.companyService.getPaginatedCompanyList(page)
+    // }
 
     @Get(':companyId')
     async getSingleCompany(@Param('companyId') companyId: string) {
