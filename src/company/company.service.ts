@@ -115,7 +115,7 @@ export class CompanyService {
 
         // Handle other fields
         const otherFields = [
-            'description', 'founded', 'headquarter', 'name', 'numOfEmployees', 'website', 'workType'
+            'description', 'founded', 'headquarter', 'name', 'numOfEmployees', 'website', 'workType',
         ];
         for (const field of otherFields) {
             if (body[field] !== undefined) {
