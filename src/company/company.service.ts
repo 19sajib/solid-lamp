@@ -45,10 +45,7 @@ export class CompanyService {
             $regex: name,
             $options: "i"
         }}
-        if (workType) query = {...query, workType: {
-            $regex: workType,
-            $options: "i"
-        }}
+        if (workType) query = {...query, [`workType.${workType}`]: true}
         if (hireType) query = {...query, [`hireType.${hireType}`]: true}
         if (techStack) {
             // let regex = techStack.map( function( val ){ 
