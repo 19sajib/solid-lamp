@@ -45,10 +45,7 @@ export class CompanyService {
             $regex: name,
             $options: "i"
         }}
-        if (workType) query = {...query, workType: {
-            $regex: workType,
-            $options: "i"
-        }}
+        if (workType) query = {...query, [`workType.${workType}`]: true}
         if (hireType) query = {...query, [`hireType.${hireType}`]: true}
         if (techStack) {
             // let regex = techStack.map( function( val ){ 
@@ -115,7 +112,7 @@ export class CompanyService {
 
         // Handle other fields
         const otherFields = [
-            'description', 'founded', 'headquarter', 'name', 'numOfEmployees', 'website', 'workType'
+            'description', 'founded', 'headquarter', 'name', 'numOfEmployees', 'website', 'workType',
         ];
         for (const field of otherFields) {
             if (body[field] !== undefined) {

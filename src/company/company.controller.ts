@@ -12,7 +12,6 @@ import { JobDTO } from './dto/job.dto';
 @ApiTags("Company Related APIs")
 @Controller('company')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
 export class CompanyController {
     constructor(
         private readonly companyService: CompanyService
@@ -34,17 +33,20 @@ export class CompanyController {
     //     return await this.companyService.getPaginatedCompanyList(page)
     // }
 
+    @UseGuards(AuthGuard)
     @Get(':companyId')
     async getSingleCompany(@Param('companyId') companyId: string) {
         return await this.companyService.getSingleCompanyDetail(companyId)
     }
     
+    @UseGuards(AuthGuard)
     @Post('create')
     async createCompany(@Body() body: CreateCompanyDTO, @Req() req){
         body.addedBy = req.user
         return await this.companyService.createCompany(body)
     }
 
+    @UseGuards(AuthGuard)
     @Patch(':companyId')
     async updateCompanyInfo(@Param('companyId') companyId: string, @Body() body: UpdateCompanyDTO) {
         return await this.companyService.updateCompanyInfo(companyId, body)

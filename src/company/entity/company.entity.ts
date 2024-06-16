@@ -2,7 +2,6 @@ import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 import { Review } from "./review.entity";
-import { WorkType } from "./helper";
 import { Job } from "./job.entity";
 import { Salary } from "./salary.entity";
 import { Interview } from "./interview.entity";
@@ -24,6 +23,17 @@ class HireType {
     @prop({ default: false })
     public hirePartTime?: boolean;
   }
+
+class WorkType {
+  @prop({ default: true })
+  public onSite?: boolean;
+
+  @prop({ default: false })
+  public remote?: boolean
+
+  @prop({ default: false })
+  public hybrid?: boolean
+}
 
 class Social {
     @prop({ match: /^https?:\/\/(www\.)?linkedin\.com\/.*$/ })
@@ -65,8 +75,8 @@ export class Company extends TimeStamps {
     @prop({ type: () => [String] })
     techStack?: string[]
 
-    @prop({ enum: () => WorkType })
-    workType?: WorkType.ONSITE
+    @prop({ _id: false })
+    workType?: WorkType
 
     @prop({ _id: false })
     hireType?: HireType
@@ -76,6 +86,12 @@ export class Company extends TimeStamps {
 
     @prop({ _id: false })
     social?: Social
+
+    @prop({ type: String })
+    industry?: string
+
+    @prop({ type: Number })
+    rating?: number
 
     @prop({ type: () => [Salary], ref: 'salaries', default: [] })
     salaries?: Ref<Salary>[]

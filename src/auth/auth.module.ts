@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './Google.strategy';
+import { UserController } from './user.controller';
 
 @Module({
     imports: [
@@ -23,6 +24,6 @@ import { GoogleStrategy } from './Google.strategy';
         TypegooseModule.forFeature([User]), 
     ],
     providers: [AuthService, GoogleStrategy],
-    controllers: [AuthController]
+    controllers: [AuthController, UserController]
 })
 export class AuthModule {}
