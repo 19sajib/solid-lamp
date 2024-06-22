@@ -13,8 +13,6 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    let port = app.getHttpServer().address();
-    console.log(port)
   });
 
   afterAll(async () => {
