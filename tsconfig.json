@@ -18,9 +18,9 @@
     // "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     // new from here for jest
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["./src/*"]
     },
     "module": "commonjs",
     "target": "es6",
