@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './Google.strategy';
+import { GoogleStrategy } from './google.strategy';
 import { UserController } from './user.controller';
 
 @Module({
