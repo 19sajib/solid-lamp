@@ -1,15 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { getModelToken } from 'nestjs-typegoose';
 import { mongoose } from '@typegoose/typegoose';
-import * as bcrypt from 'bcrypt';
 import { User } from '../../src/auth/entity/user.entity';
 import { AppModule } from '../../src/app.module';
 import { RegisterDTO } from '../../src/auth/dto/register.dto';
 import { LoginDTO } from '../../src/auth/dto/login.dto';
 
-describe('AuthService (e2e)', () => {
+describe('AuthController (e2e)', () => {
   let app: INestApplication;
   let userModel: mongoose.Model<User>;
 
@@ -22,7 +21,7 @@ describe('AuthService (e2e)', () => {
     await app.init();
 
     userModel = moduleFixture.get<mongoose.Model<User>>(getModelToken(User.name));
-    await userModel.deleteMany({});
+    await userModel.deleteMany({})
   });
 
   afterAll(async () => {
