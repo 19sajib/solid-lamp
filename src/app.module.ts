@@ -7,6 +7,7 @@ import config from './config/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { AuthModule } from './auth/auth.module';
 import { CompanyModule } from './company/company.module';
+import { InterviewModule } from './interview/interview.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { CompanyModule } from './company/company.module';
       })
     }),
     AuthModule,
-    CompanyModule
+    CompanyModule,
+    InterviewModule
   ],
   controllers: [AppController],
   providers: [AppService],
