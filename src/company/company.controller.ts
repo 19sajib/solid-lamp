@@ -3,7 +3,6 @@ import { CompanyService } from './company.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateCompanyDTO, UpdateCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from 'src/utils/guard/auth.guard';
-import { InterviewDTO } from './dto/interview.dto';
 import { ReviewDTO } from './dto/review.dto';
 import { SalaryDTO } from './dto/salary.dto';
 import { JobDTO } from './dto/job.dto';
@@ -50,12 +49,6 @@ export class CompanyController {
     @Patch(':companyId')
     async updateCompanyInfo(@Param('companyId') companyId: string, @Body() body: UpdateCompanyDTO) {
         return await this.companyService.updateCompanyInfo(companyId, body)
-    }
-
-    @Post('interview')
-    async addInterview(@Body() body: InterviewDTO, @Req() req) {
-        body.reviewer = req.user
-        return await this.companyService.addInterview(body)
     }
 
     @Post('review')

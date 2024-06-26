@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/auth/entity/user.entity';
-import { Interview } from './entity/interview.entity';
+import { Interview } from 'src/interview/entity/interview.entity';
 import { Review } from './entity/review.entity';
 import { Salary } from './entity/salary.entity';
 import { Job } from './entity/job.entity';
