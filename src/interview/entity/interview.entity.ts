@@ -22,12 +22,21 @@ export class Interview extends TimeStamps {
     @prop({ enum: () => InterviewExperience, default: InterviewExperience.NEUTRAL })
     public experience?: InterviewExperience
 
+    @prop({ required: true, type: () => [String] })
+    public questions!: string[]
+    
+    @prop({ required: true, enum: () => ApplyMethod, default: ApplyMethod.SOCIAL })
+    public applyMethod!: ApplyMethod
+    
+    @prop({ required: true })
+    public offerReceived!: boolean
+    
+    @prop({ required: false })
+    public offerAccepted?: boolean
+
     @prop()
     public feedback?: string
 
-    @prop({ required: true, enum: () => ApplyMethod, default: ApplyMethod.SOCIAL })
-    public applyMethod!: ApplyMethod
-
-    @prop({ required: true })
-    public offerReceive!: boolean
+    @prop({ required: true, default: true })
+    public isShow!: boolean
 }
