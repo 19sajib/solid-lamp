@@ -1,7 +1,7 @@
 import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
-import { Company } from "./company.entity";
-import { EmploymentStatus, EmploymentType } from "./helper";
+import { Company } from "src/company/entity/company.entity";
+import { EmploymentStatus, EmploymentType } from "../helper";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
 import { User } from "src/auth/entity/user.entity";
 
@@ -43,5 +43,8 @@ export class Review extends TimeStamps{
 
     @prop()
     public recommended?: boolean
+
+    @prop({ required: true, default: true })
+    private isShow!: boolean
 
 }

@@ -1,9 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { EmploymentStatus, EmploymentType } from "../entity/helper";
+import { EmploymentStatus, EmploymentType } from "../helper";
 import { IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class ReviewDTO {
-    @ApiProperty({ type: String })
     @IsMongoId()
     @IsOptional()
     companyId: string
