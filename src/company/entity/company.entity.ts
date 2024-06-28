@@ -1,11 +1,11 @@
 import { Ref, modelOptions, prop } from "@typegoose/typegoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { modelOptionsFactory } from "src/utils/mongodb/modelOptionsFactory";
-import { Review } from "./review.entity";
-import { Job } from "./job.entity";
-import { Salary } from "./salary.entity";
+import { Review } from "src/review/entity/review.entity";
+import { Job } from "src/job/entity/job.entity";
 import { Interview } from "src/interview/entity/interview.entity";
 import { User } from "src/auth/entity/user.entity";
+import { Salary } from "src/salary/entity/salary.entity";
 
 class HireType {
     @prop({ default: false })
