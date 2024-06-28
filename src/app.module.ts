@@ -8,6 +8,9 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { AuthModule } from './auth/auth.module';
 import { CompanyModule } from './company/company.module';
 import { InterviewModule } from './interview/interview.module';
+import { ReviewModule } from './review/review.module';
+import { SalaryModule } from './salary/salary.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -26,7 +29,10 @@ import { InterviewModule } from './interview/interview.module';
     }),
     AuthModule,
     CompanyModule,
-    InterviewModule
+    InterviewModule,
+    ReviewModule,
+    SalaryModule,
+    JobModule
   ],
   controllers: [AppController],
   providers: [AppService],
