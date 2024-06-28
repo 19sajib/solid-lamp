@@ -3,21 +3,14 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { Company } from './entity/company.entity';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateCompanyDTO, UpdateCompanyDTO } from './dto/company.dto';
-import { ReviewDTO } from './dto/review.dto';
-import { Review } from './entity/review.entity';
-import { SalaryDTO } from './dto/salary.dto';
-import { Salary } from './entity/salary.entity';
-import { JobDTO } from './dto/job.dto';
-import { Job } from './entity/job.entity';
 import { pagination } from 'src/utils/mongodb/pagination';
+import { Salary } from 'src/salary/entity/salary.entity';
 
 @Injectable()
 export class CompanyService {
     constructor(
         @InjectModel(Company) private readonly companyModel: ReturnModelType<typeof Company>,
-        @InjectModel(Review) private readonly reviewModel: ReturnModelType<typeof Review>,
         @InjectModel(Salary) private readonly salaryModel: ReturnModelType<typeof Salary>,
-        @InjectModel(Job) private readonly jobModel: ReturnModelType<typeof Job>
     ){ }
 
     // create company profile
@@ -133,29 +126,5 @@ export class CompanyService {
         ).exec();
 
         return updatedCompany
-    }
-
-    // add review to company
-    async addReview(body: ReviewDTO): Promise<any> {
-        const { companyId } =body
-        const review = await this.reviewModel.create(body)
-        await this.companyModel.findByIdAndUpdate(companyId, { $push: {reviews: review.id} }, { new: true, useFindAndModify: true })
-        return review
-    }
-
-    // add salary to company
-    async addSalary(body: SalaryDTO): Promise<any> {
-        const { companyId } =body
-        const salary = await this.salaryModel.create(body)
-        await this.companyModel.findByIdAndUpdate(companyId, { $push: {salaries: salary.id} }, { new: true, useFindAndModify: true })
-        return salary
-    }
-
-    // add job to company
-    async addJob(body: JobDTO): Promise<any> {
-        const { companyId } =body
-        const job = await this.jobModel.create(body)
-        await this.companyModel.findByIdAndUpdate(companyId, { $push: {jobs: job.id} }, { new: true, useFindAndModify: true })
-        return job
     }
 }
