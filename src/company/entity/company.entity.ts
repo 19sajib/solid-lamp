@@ -105,11 +105,17 @@ export class Company extends TimeStamps {
     @prop({ type: () => [Interview], ref: 'interviews', default: []})
     interviews?: Ref<Interview>[]
 
-    @prop({ type: Boolean, default: false })
+    @prop({ type: Boolean, default: true })
     isShow?: boolean
 
     @prop({ type: String })
     logo?: string
+
+    @prop({ type: String, required: true })
+    workingDays!: string
+
+    @prop({ type: String, required: true })
+    workingHours!: string
 
     @prop({ required: true, ref: () => User })
     private addedBy!: Ref<User>;

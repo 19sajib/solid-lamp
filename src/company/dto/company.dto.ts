@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
-import { IsArray, IsBoolean, IsOptional, IsString, Matches } from "class-validator";
+import { IsArray, IsBoolean, IsMongoId, IsNotEmpty, IsOptional, IsString, Matches } from "class-validator";
 
 class HireTypeDTO {
     @ApiProperty({ type: Boolean })
@@ -128,6 +128,17 @@ export class CreateCompanyDTO {
     @IsOptional()
     industry: string
 
+    @ApiProperty({ type: String, example: "Mon-Fri"})
+    @IsNotEmpty()
+    @IsString()
+    workingDays: string
+
+    @ApiProperty({ type: String, example: "9-5"})
+    @IsNotEmpty()
+    @IsString()
+    workingHours: string
+
+    @IsMongoId()
     @IsOptional()
     addedBy: string
 }
