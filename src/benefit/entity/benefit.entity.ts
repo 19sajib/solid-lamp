@@ -77,8 +77,14 @@ export class BenefitReview{
     @prop({ ref: () => Benefit })
     public benefit!: Ref<Benefit>
 
+    @prop({ ref: () => Company })
+    public companyId!: Ref<Company>
+
     @prop()
     public description!: string
+
+    @prop({ required: true, default: true })
+    private isShow!: boolean
 
     @prop({ required: true, ref: () => User})
     private reviewer!: Ref<User>

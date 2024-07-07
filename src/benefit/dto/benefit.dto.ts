@@ -2,10 +2,6 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class BenefitDTO {
-    @IsMongoId()
-    @IsOptional()
-    companyId: string
-
     @ApiProperty({ required: false, type: Boolean, default: false })
     @IsOptional()
     @IsBoolean()
@@ -113,14 +109,18 @@ export class BenefitDTO {
 }
 
 export class BenefitReviewDTO {
-    @IsMongoId()
+    @ApiProperty({ type: BenefitDTO})
     @IsOptional()
-    benefit: string
+    benefit: BenefitDTO
 
     @ApiProperty({ required: true, type: String, default: "really good experience"})
     @IsString()
     @IsNotEmpty()
     description: string
+
+    @IsMongoId()
+    @IsOptional()
+    companyId: string
 
     @IsMongoId()
     @IsOptional()
