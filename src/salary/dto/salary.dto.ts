@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsMongoId, IsOptional, IsString } from "class-validator";
-import { SubsidiesEnum } from "../helper";
 
 export class SalaryDTO {
     @IsMongoId()
@@ -17,7 +16,7 @@ export class SalaryDTO {
 
     @ApiProperty({ required: true, type: String })
     @IsString()
-    salary: string
+    baseSalary: string
 
     @ApiProperty({ type: String })
     @IsString()
@@ -37,17 +36,7 @@ export class SalaryDTO {
     @ApiProperty({ type: Boolean })
     @IsBoolean()
     @IsOptional()
-    ta_da: boolean
-
-    @ApiProperty({ enum: () => SubsidiesEnum , example: SubsidiesEnum.PARTIAL })
-    @IsString()
-    @IsOptional()
-    lunch: SubsidiesEnum
-
-    @ApiProperty({ enum: () => SubsidiesEnum , example: SubsidiesEnum.PARTIAL })
-    @IsString()
-    @IsOptional()
-    breakfast: SubsidiesEnum
+    profitSharing: boolean
 
     @ApiProperty({ type: String })
     @IsOptional()

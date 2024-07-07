@@ -11,6 +11,7 @@ import { InterviewModule } from './interview/interview.module';
 import { ReviewModule } from './review/review.module';
 import { SalaryModule } from './salary/salary.module';
 import { JobModule } from './job/job.module';
+import { BenefitModule } from './benefit/benefit.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { JobModule } from './job/job.module';
     InterviewModule,
     ReviewModule,
     SalaryModule,
-    JobModule
+    JobModule,
+    BenefitModule
   ],
   controllers: [AppController],
   providers: [AppService],
