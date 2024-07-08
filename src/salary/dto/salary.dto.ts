@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsMongoId, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsMongoId, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class SalaryDTO {
     @IsMongoId()
@@ -14,17 +14,17 @@ export class SalaryDTO {
     @IsString()
     position: string
 
-    @ApiProperty({ required: true, type: String })
-    @IsString()
+    @ApiProperty({ required: true, type: Number, example: 50000 })
+    @IsNumber()
     baseSalary: string
 
-    @ApiProperty({ type: String })
-    @IsString()
+    @ApiProperty({ type: Boolean })
+    @IsBoolean()
     @IsOptional()
-    stock: string
+    stock: boolean
 
-    @ApiProperty({ type: String })
-    @IsString()
+    @ApiProperty({ type: Number, example: 3000 })
+    @IsNumber()
     @IsOptional()
     additional: string
 
