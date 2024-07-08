@@ -38,6 +38,12 @@ export class SalaryController {
     return await this.salaryService.getSalariesByCompanyId(companyId);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('average/:companyId')
+  async getAverageSalaryByCompanyId(@Param('companyId') companyId: string) {
+    return await this.salaryService.getAverageSalaryByCompanyId(companyId);
+  }
+
   @UseGuards(AdminGuard)
   @Patch(':salaryId')
   async archiveSalary(@Param('salaryId') salaryId: string) {

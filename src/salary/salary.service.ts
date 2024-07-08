@@ -4,6 +4,7 @@ import { Salary } from './entity/salary.entity';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { SalaryDTO } from './dto/salary.dto';
 import { Company } from 'src/company/entity/company.entity';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class SalaryService {
@@ -18,6 +19,42 @@ export class SalaryService {
   async getSalariesByCompanyId(companyId: string): Promise<any> {
     return await this.salaryModel.find({ companyId, isShow: true })
   }
+
+  // average salary by company id
+  async getAverageSalaryByCompanyId(companyId: string): Promise<any> {
+    let response = await this.salaryModel.aggregate([
+        { $match: { companyId: new mongoose.Types.ObjectId(companyId) } },
+        {
+            $facet: {
+                byPosition: [
+                    {
+                        $group: {
+                            _id: "$position",
+                            aveBaseSalary: { $avg: "$baseSalary" },
+                            aveTotalSalary: { $avg: { $add: ["$baseSalary", "$additional"] } }
+                        }
+                    }
+                ],
+                overallAverage: [
+                    {
+                        $group: {
+                            _id: null,
+                            overallAveBaseSalary: { $avg: "$baseSalary" }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project: {
+                byPosition: 1,
+                overallAverage: { $arrayElemAt: ["$overallAverage.overallAveBaseSalary", 0] }
+            }
+        }
+    ]);
+    return response;
+}
+
 
   // add salary to company
   async addSalary(body: SalaryDTO): Promise<any> {
