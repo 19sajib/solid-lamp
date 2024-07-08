@@ -15,13 +15,13 @@ export class Salary {
     public position!: string;
 
     @prop({ required: true })
-    public baseSalary!: string;
+    public baseSalary!: number;
 
     @prop()
-    public stock?: string;
+    public stock?: boolean;
 
     @prop()
-    public additional?: string;
+    public additional?: number;
 
     @prop()
     public performanceBonus?: boolean;
