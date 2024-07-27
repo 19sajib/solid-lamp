@@ -26,6 +26,18 @@ export class ReviewController {
     }
 
     @UseGuards(AuthGuard)
+    @Get('rating/:companyId')
+    async getReviewRatingByCompanyId(@Param('companyId') companyId: string) {
+        return await this.reviewService.getReviewRatingByCompanyId(companyId)
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('summary/:companyId')
+    async getReviewSummaryByCompanyId(@Param('companyId') companyId: string) {
+        return await this.reviewService.getReviewSummaryByCompanyId(companyId)
+    }
+
+    @UseGuards(AuthGuard)
     @Get('helpful/:reviewId')
     async helpfulReview(@Param('reviewId') reviewId: string, @Req() req) {
         return await this.reviewService.helpfulReview(reviewId, req.user)

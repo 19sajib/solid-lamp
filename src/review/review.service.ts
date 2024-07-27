@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Review } from './entity/review.entity';
 import { ReviewDTO } from './dto/review.dto';
-import { ReturnModelType } from '@typegoose/typegoose';
+import { mongoose, ReturnModelType } from '@typegoose/typegoose';
 import { Company } from 'src/company/entity/company.entity';
 
 @Injectable()
@@ -40,6 +40,55 @@ export class ReviewService {
     // get review by company id
     async getReviewByCompanyId(companyId: string): Promise<any>{
         return await this.reviewModel.find({ companyId, isShow: true })
+    }
+
+    // get review summary by company id
+    async getReviewSummaryByCompanyId(companyId: string): Promise<any>{
+        const [{ positions, ratings }] = await this.reviewModel.aggregate([
+            { $match: { companyId: new mongoose.Types.ObjectId(companyId), isShow: true}},
+            {
+                $facet: {
+                    positions: [{
+                        $group: {
+                            _id: "$position",
+                            total: { $count: {}}
+                        }
+                    }],
+                    ratings: [{
+                        $group: {
+                            _id: "$rating",
+                            total: { $count: {}}
+                        }
+                    }]
+                }
+            }
+        ])
+        return { positions, ratings }
+    }
+
+    // get review rating by company id
+    async getReviewRatingByCompanyId(companyId: string): Promise<any>{
+        const totalReviews = await this.reviewModel.countDocuments({companyId: new mongoose.Types.ObjectId(companyId), isShow: true })
+        if(totalReviews === 0) {
+            return {
+                totalReviews,
+                percentageRecommended: 0,
+                averageRating: 0
+            }
+        }
+        const percentageRecommended = await this.reviewModel.countDocuments({companyId, isShow: true, recommended: true })
+        const [{averageRating}] = await this.reviewModel.aggregate([
+            { $match: {companyId: new mongoose.Types.ObjectId(companyId), isShow: true }},
+            { $group: {
+                _id: null,
+                averageRating: { $avg: "$rating"} 
+            }}
+        ])
+        return {
+            totalReviews,
+            percentageRecommended,
+            averageRating
+        }
     }
 
     // helpful review 
