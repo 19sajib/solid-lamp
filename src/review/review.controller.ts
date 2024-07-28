@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ReviewService } from './review.service';
 import { ReviewDTO } from './dto/review.dto';
@@ -21,8 +21,15 @@ export class ReviewController {
 
     @UseGuards(AuthGuard)
     @Get(':companyId')
-    async getReviewByCompanyId(@Param('companyId') companyId: string) {
-        return await this.reviewService.getReviewByCompanyId(companyId)
+    async getReviewByCompanyId(
+            @Param('companyId') companyId: string,        
+            @Query('page',  new DefaultValuePipe(1), ParseIntPipe) page: number, 
+            @Query('position') position?: string,
+            @Query('rating', new DefaultValuePipe(null), ParseIntPipe) rating?: number,
+            @Query('employmentType') employmentType?: string, 
+        ) {
+            console.log({companyId, page})
+        return await this.reviewService.getReviewByCompanyId(companyId, page, position, rating, employmentType)
     }
 
     @UseGuards(AuthGuard)

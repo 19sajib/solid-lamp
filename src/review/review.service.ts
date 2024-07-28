@@ -4,6 +4,7 @@ import { Review } from './entity/review.entity';
 import { ReviewDTO } from './dto/review.dto';
 import { mongoose, ReturnModelType } from '@typegoose/typegoose';
 import { Company } from 'src/company/entity/company.entity';
+import { pagination } from 'src/utils/mongodb/pagination';
 
 @Injectable()
 export class ReviewService {
@@ -38,8 +39,19 @@ export class ReviewService {
     }
 
     // get review by company id
-    async getReviewByCompanyId(companyId: string): Promise<any>{
-        return await this.reviewModel.find({ companyId, isShow: true })
+    async getReviewByCompanyId(companyId: string, page: number, position: string, rating: number, employmentType: string): Promise<any>{
+        let query = {}
+        if (position) query = {...query, position: {
+            $regex: position,
+            $options: "i"
+        }}
+        if (employmentType) query = {...query, employmentType: {
+            $regex: employmentType,
+            $options: "i"
+        }}
+        if (rating) query = {...query, rating}
+
+        return await pagination(this.reviewModel, page, {...query, companyId: new mongoose.Types.ObjectId(companyId), isShow: true})
     }
 
     // get review summary by company id
