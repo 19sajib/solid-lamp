@@ -57,7 +57,7 @@ export class SalaryService {
 }
   // average salary by company id
   async getAverageSalaryByCompanyId(companyId: string): Promise<any> {
-    let response = await this.salaryModel.aggregate([
+    let [{ byPosition, overall}] = await this.salaryModel.aggregate([
         { $match: { companyId: new mongoose.Types.ObjectId(companyId), isShow: true } },
         {
             $facet: {
@@ -66,6 +66,8 @@ export class SalaryService {
                         $group: {
                             _id: "$position",
                             total: {$count: {}},
+                            minBaseSalary: { $min: "$baseSalary"},
+                            maxBaseSalary: { $max: "$baseSalary"},
                             aveBaseSalary: { $avg: "$baseSalary" },
                             aveTotalSalary: { $avg: { $add: ["$baseSalary", "$additional"] } }
                         }
@@ -75,7 +77,9 @@ export class SalaryService {
                     {
                         $group: {
                             _id: null,
-                            overallAveBaseSalary: { $avg: "$baseSalary" }
+                            overallAveBaseSalary: { $avg: "$baseSalary" },
+                            overallMinBaseSalary: { $min: "$baseSalary"},
+                            overallMaxBaseSalary: { $max: "$baseSalary"},
                         }
                     }
                 ]
@@ -84,11 +88,14 @@ export class SalaryService {
         {
             $project: {
                 byPosition: 1,
-                overallAverage: { $arrayElemAt: ["$overallAverage.overallAveBaseSalary", 0] }
+                overall : {
+                    overallAverage: { $arrayElemAt: ["$overallAverage.overallAveBaseSalary", 0] },
+                    overallMin: { $arrayElemAt: ["$overallAverage.overallMinBaseSalary", 0] },
+                    overallMax: { $arrayElemAt: ["$overallAverage.overallMaxBaseSalary", 0] },}
             }
         }
     ]);
-    return response;
+    return { byPosition, overall};
 }
 
 
