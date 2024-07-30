@@ -20,16 +20,52 @@ export class SalaryService {
     return await this.salaryModel.find({ companyId, isShow: true })
   }
 
-  // average salary by company id
-  async getAverageSalaryByCompanyId(companyId: string): Promise<any> {
+  // average salary
+  async getAverageSalary(): Promise<any> {
     let response = await this.salaryModel.aggregate([
-        { $match: { companyId: new mongoose.Types.ObjectId(companyId) } },
+        { $match: { isShow: true } },
         {
             $facet: {
                 byPosition: [
                     {
                         $group: {
                             _id: "$position",
+                            total: { $count: {}},
+                            aveBaseSalary: { $avg: "$baseSalary" },
+                            aveTotalSalary: { $avg: { $add: ["$baseSalary", "$additional"] } }
+                        }
+                    }
+                ],
+                overallAverage: [
+                    {
+                        $group: {
+                            _id: null,
+                            overallAveBaseSalary: { $avg: "$baseSalary" }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project: {
+                byPosition: 1,
+                overallAverage: { $arrayElemAt: ["$overallAverage.overallAveBaseSalary", 0] }
+            }
+        }
+    ]);
+    return response;
+}
+  // average salary by company id
+  async getAverageSalaryByCompanyId(companyId: string): Promise<any> {
+    let response = await this.salaryModel.aggregate([
+        { $match: { companyId: new mongoose.Types.ObjectId(companyId), isShow: true } },
+        {
+            $facet: {
+                byPosition: [
+                    {
+                        $group: {
+                            _id: "$position",
+                            total: {$count: {}},
                             aveBaseSalary: { $avg: "$baseSalary" },
                             aveTotalSalary: { $avg: { $add: ["$baseSalary", "$additional"] } }
                         }

@@ -4,7 +4,7 @@ import { Job } from './entity/job.entity';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { JobDTO } from './dto/job.dto';
 import { Company } from 'src/company/entity/company.entity';
-import { pagination } from 'src/utils/mongodb/pagination';
+import { paginationAggregate } from 'src/utils/mongodb/pagination';
 
 @Injectable()
 export class JobService {
@@ -38,12 +38,56 @@ export class JobService {
             }
         }
         query = { ...query, isShow: true }
-        return await pagination(this.jobModel, page, query)
+        let aggregateStage = [
+            { $match: query },
+            { $sort: { createdAt: -1 } },
+            { $skip: page === 1 ? 0 : (page - 1) * 10 },
+            { $limit: 10 },
+            {
+              $lookup: {
+                from: 'companies',
+                localField: 'companyId',
+                foreignField: '_id',
+                as: 'company',
+              },
+            },
+            {
+              $unwind: {
+                path: '$company',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                id: "$_id",
+                position: 1,
+                workType: 1,
+                employmentStatus: 1,
+                salaryRange: 1,
+                experiencedRequired: 1,
+                techStack: 1,
+                location: 1,
+                createdAt: 1,
+                company: {
+                  id: '$company._id',
+                  name: '$company.name',
+                  logo: '$company.logo',
+                },
+              },
+            },
+          ]
+        return await paginationAggregate(this.jobModel, page, aggregateStage, query)
     }
 
     // get job by company id
     async getJobByCompanyId(companyId: string): Promise<any> {
         return await this.jobModel.find({ companyId, isShow: true })
+    }
+
+    // get job by job id
+    async getSingleJobByJobId(jobId: string): Promise<any> {
+        return await this.jobModel.findById(jobId).populate({path: "companyId", select: "name logo"})
     }
     
     // add job to company

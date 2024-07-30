@@ -21,6 +21,12 @@ export class SalaryController {
   constructor(private readonly salaryService: SalaryService) {}
 
   @UseGuards(AuthGuard)
+  @Get('average')
+  async getAverageSalary() {
+    return await this.salaryService.getAverageSalary();
+  }
+
+  @UseGuards(AuthGuard)
   @Post(':companyId')
   async addSalary(
     @Body() body: SalaryDTO,
@@ -44,9 +50,11 @@ export class SalaryController {
     return await this.salaryService.getAverageSalaryByCompanyId(companyId);
   }
 
+
   @UseGuards(AdminGuard)
   @Patch(':salaryId')
   async archiveSalary(@Param('salaryId') salaryId: string) {
     return await this.salaryService.archiveSalary(salaryId)
   }
+  
 }

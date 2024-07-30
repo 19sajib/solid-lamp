@@ -58,6 +58,9 @@ export class Company extends TimeStamps {
     name!: string
 
     @prop()
+    headline?: string
+
+    @prop()
     description?: string
 
     @prop()

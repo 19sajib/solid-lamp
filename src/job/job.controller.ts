@@ -26,9 +26,15 @@ export class JobController {
     }
 
     @UseGuards(AuthGuard)
-    @Get(':companyId')
+    @Get('company/:companyId')
     async getJobByCompanyId(@Param('companyId') companyId: string) {
         return await this.jobService.getJobByCompanyId(companyId)
+    }
+
+    @UseGuards(AuthGuard)
+    @Get(':jobId')
+    async getSingleJobByJobId(@Param('jobId') jobId: string) {
+        return await this.jobService.getSingleJobByJobId(jobId)
     }
 
     @UseGuards(AuthGuard)

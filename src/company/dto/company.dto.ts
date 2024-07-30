@@ -76,6 +76,11 @@ export class CreateCompanyDTO {
     @ApiProperty({ type: String, example: "Blah Blah Blah..."})
     @IsOptional()
     @IsString()
+    headline: string
+
+    @ApiProperty({ type: String, example: "Blah Blah Blah..."})
+    @IsOptional()
+    @IsString()
     description: string
 
     @ApiProperty({ type: String, example: "2019"})
