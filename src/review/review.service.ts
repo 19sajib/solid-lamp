@@ -39,7 +39,7 @@ export class ReviewService {
     }
 
     // get review by company id
-    async getReviewByCompanyId(companyId: string, page: number, position: string, rating: number, employmentType: string): Promise<any>{
+    async getReviewByCompanyId(companyId: string, page: number, position?: string, rating?: number, employmentType?: string): Promise<any>{
         let query = {}
         if (position) query = {...query, position: {
             $regex: position,
