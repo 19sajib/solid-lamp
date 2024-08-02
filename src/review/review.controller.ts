@@ -22,14 +22,15 @@ export class ReviewController {
     @UseGuards(AuthGuard)
     @Get(':companyId')
     async getReviewByCompanyId(
-            @Param('companyId') companyId: string,        
-            @Query('page',  new DefaultValuePipe(1), ParseIntPipe) page: number, 
+            @Param('companyId') companyId: string,
+            @Query('page', ParseIntPipe) page: number,
             @Query('position') position?: string,
-            @Query('rating', new DefaultValuePipe(null), ParseIntPipe) rating?: number,
+            @Query('rating') rating?: number | string, // rating wont show in swagger bcaz number | string use single data type
             @Query('employmentType') employmentType?: string, 
+            // @Query() query: {page?: string, position?: string, rating?: string, employmentType?: string}
+            // @Query('page',  new DefaultValuePipe(1), ParseIntPipe) page: number, 
         ) {
-            console.log({companyId, page})
-        return await this.reviewService.getReviewByCompanyId(companyId, page, position, rating, employmentType)
+        return await this.reviewService.getReviewByCompanyId(companyId, page, position, Number(rating), employmentType)
     }
 
     @UseGuards(AuthGuard)
