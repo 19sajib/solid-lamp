@@ -14,6 +14,12 @@ export class InterviewController {
     ) {}
 
     @UseGuards(AuthGuard)
+    @Get('summary/:companyId')
+    async getInterviewSummary(@Param('companyId') companyId: string) {
+        return this.interviewService.getInterviewSummary(companyId)
+    }
+
+    @UseGuards(AuthGuard)
     @Get(':companyId')
     async getInterviewList(@Param('companyId') companyId: string) {
         return this.interviewService.getInterviewList(companyId)
