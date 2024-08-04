@@ -4,6 +4,7 @@ import { mongoose, ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
 import { InterviewDTO } from './dto/interview.dto';
 import { Company } from 'src/company/entity/company.entity';
+import { pagination } from 'src/utils/mongodb/pagination';
 
 @Injectable()
 export class InterviewService {
@@ -12,8 +13,24 @@ export class InterviewService {
         @InjectModel(Company) private readonly companyModel: ReturnModelType<typeof Company>
     ) {}
 
-    async getInterviewList(companyId: string): Promise<any> {
-        return await this.interviewModel.find({companyId, isShow: true})
+    async getInterviewList(companyId: string, page: number, experience: string, position: string, offer: string): Promise<any> {
+      let query = {}
+      if (position) query = {...query, position: {
+          $regex: position,
+          $options: "i"
+      }}
+
+      if (offer == 'offerReceived') query = {...query, offerReceived: true}
+      else if (offer == 'offerAccepted') query = {...query, offerAccepted: true}
+      else if (offer == 'noOffer') query = {...query, offerReceived: false}
+
+      if (experience) query = {...query, experience: {
+          $regex: experience,
+          $options: "i"
+
+      }}
+      console.log(query)
+      return await pagination(this.interviewModel, page, {...query, companyId: new mongoose.Types.ObjectId(companyId), isShow: true})
     }
 
     // add interview to company
