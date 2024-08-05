@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InterviewService } from './interview.service';
 import { AuthGuard } from 'src/utils/guard/auth.guard';
@@ -14,9 +14,21 @@ export class InterviewController {
     ) {}
 
     @UseGuards(AuthGuard)
+    @Get('summary/:companyId')
+    async getInterviewSummary(@Param('companyId') companyId: string) {
+        return this.interviewService.getInterviewSummary(companyId)
+    }
+
+    @UseGuards(AuthGuard)
     @Get(':companyId')
-    async getInterviewList(@Param('companyId') companyId: string) {
-        return this.interviewService.getInterviewList(companyId)
+    async getInterviewList(
+        @Param('companyId') companyId: string,
+        @Query('page', ParseIntPipe) page: number,
+        @Query('experience') experience?: string,
+        @Query('position') position?: string,
+        @Query('offer') offer?: string
+    ) {
+        return await this.interviewService.getInterviewList(companyId, page, experience, position, offer)
     }
 
     @UseGuards(AuthGuard)
