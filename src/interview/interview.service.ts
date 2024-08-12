@@ -49,14 +49,6 @@ export class InterviewService {
         let [{ applyMethod, totalInterview, experience, positions }] = await this.interviewModel.aggregate([
             { $match: { companyId: new mongoose.Types.ObjectId(companyId), isShow: true }},
             { $facet: {
-                applyMethod:[
-                    {
-                        $group: {
-                            _id: "$applyMethod",
-                            total: { $sum: 1 }
-                        }
-                    }
-                ],
                 positions: [
                   {
                     $group: {
@@ -64,6 +56,14 @@ export class InterviewService {
                       total: { $sum: 1 }
                     }
                   }
+                ],
+                applyMethod:[
+                    {
+                        $group: {
+                            _id: "$applyMethod",
+                            total: { $sum: 1 }
+                        }
+                    }
                 ],
                 totalInterview: [
                   { 
