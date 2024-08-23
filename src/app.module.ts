@@ -13,6 +13,7 @@ import { SalaryModule } from './salary/salary.module';
 import { JobModule } from './job/job.module';
 import { BenefitModule } from './benefit/benefit.module';
 import { LifestyleModule } from './lifestyle/lifestyle.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { LifestyleModule } from './lifestyle/lifestyle.module';
     SalaryModule,
     JobModule,
     BenefitModule,
-    LifestyleModule
+    LifestyleModule,
+    CloudinaryModule
   ],
   controllers: [AppController],
   providers: [AppService],
