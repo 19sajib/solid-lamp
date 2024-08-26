@@ -94,6 +94,7 @@ export class LifeStyleController {
     @Req() req: any
   ) {
 
+
     let reviewerId = req.user;
     let imageLinks = [];
     for(const file of files) {
@@ -101,6 +102,7 @@ export class LifeStyleController {
                 await this.cloudinaryService.uploadFile(file);
         imageLinks.push(result.secure_url)
     }
+
     return await this.lifeStyleService.addLifeStyle(imageLinks, companyId, reviewerId)
   }
 }
