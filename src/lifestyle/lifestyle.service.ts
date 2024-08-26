@@ -42,7 +42,7 @@ export class LifeStyleService {
         } else {
             res = await this.lifeStyleModel.create({ imageLinks, companyId })
         }
-        console.log({res})
+
         return res
     }
 
