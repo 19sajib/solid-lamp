@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import bodyParser from 'body-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 const setupSwagger = (app: INestApplication) => {
 	const options = new DocumentBuilder()
@@ -17,9 +19,18 @@ const setupSwagger = (app: INestApplication) => {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api')
-  app.enableCors()
+
+  app.use(bodyParser.json({ limit: '50mb'}))
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true}))
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+    credentials: true,
+  });
+
   app.useGlobalPipes( new ValidationPipe())
   const logger = new Logger('Startup');
   const config = app.get(ConfigService)
