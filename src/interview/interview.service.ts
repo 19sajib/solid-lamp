@@ -20,16 +20,17 @@ export class InterviewService {
           $options: "i"
       }}
 
-      if (offer == 'offerReceived') query = {...query, offerReceived: true}
-      else if (offer == 'offerAccepted') query = {...query, offerAccepted: true}
-      else if (offer == 'noOffer') query = {...query, offerReceived: false}
+      if (offer) query = {...query, offer: {
+        $regex: offer,
+        $options: "i"
+      }}
 
       if (experience) query = {...query, experience: {
           $regex: experience,
           $options: "i"
 
       }}
-      console.log(query)
+      
       return await pagination(this.interviewModel, page, {...query, companyId: new mongoose.Types.ObjectId(companyId), isShow: true})
     }
 
